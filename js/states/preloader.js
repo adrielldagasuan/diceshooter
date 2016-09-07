@@ -6,15 +6,23 @@ BasicGame.Preloader = function (game) {
 BasicGame.Preloader.prototype = {
 
 	preload: function () {
-			this.load.atlas('mageSpritesheet','assets/player/mage-spritesheet.png','assets/player/mage-spritesheet-json.json');
-			this.load.spritesheet('fireball','assets/fireball/fireball.png', 64, 64);
-			this.load.image('tile','assets/tiles/tile.png');
-			this.load.image('face1','assets/dice/face1.png');
-			this.load.image('face2','assets/dice/face2.png');
-			this.load.image('face3','assets/dice/face3.png');
-			this.load.image('face4','assets/dice/face4.png');
-			this.load.image('face5','assets/dice/face5.png');
-			this.load.image('face6','assets/dice/face6.png');
+			this.load.image('tile','assets/tiles/tile_01.png');
+			this.load.image('tri','assets/player/tri.png');
+
+			// preload faces
+			for (i = 1; i < 7; i++) {
+				this.load.image('face'+i,'assets/dice/face_00'+i+'.png');
+			}
+
+			// preload enemies
+			for (i = 1; i < 3; i++){
+					this.load.image('enemy'+i,'assets/enemies/enemy_00'+i+'.png');
+			}
+
+			// preload bullets
+			for (i = 1; i < 7; i++){
+					this.load.image('bullet'+i,'assets/bullets/bullet_00'+i+'.png');
+			}
 	},
 
 	create: function () {
