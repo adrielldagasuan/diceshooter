@@ -49,21 +49,19 @@ BasicGame.Game.prototype = {
         gameCollider = new GameCollision(this.game);
         player.create();
         enemies.create();
-
-        console.log(player.weapon);
-        console.log(enemies.minions);
     },
 
     update: function () {
       player.update();
-      gameCollider.weaponEnemies(player.weapon, enemies.minions);
+      enemies.update();
+      gameCollider.weaponEnemies(player.weapon, enemies);
 
       //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },
 
     render: function () {
-
-
+      //this.game.debug.text(enemies.traveledDistance,10,30);
+      //this.game.debug.text(this.game.time.now,10,50);
     },
 
     quitGame: function (pointer) {

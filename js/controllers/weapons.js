@@ -30,8 +30,8 @@ Weapons.prototype = {
         lastFire[i] = this.game.time.now;
     }
 
-    bulletSparks = this.game.add.emitter(200, 200, 5);
-    bulletSparks.makeParticles('bullet1');
+    bulletSparks = this.game.add.emitter(0, 0, 4);
+    bulletSparks.makeParticles('particle');
     bulletSparks.maxParticleScale = 0.1;
 
   },
@@ -40,6 +40,7 @@ Weapons.prototype = {
     if (this.canFire(bulletType)) {
       bullet = this.bullets[bulletType-1].getFirstExists(false);
       if (bullet) {
+        bullet.damage = bulletType;
         bullet.reset(player.x, player.y-32);
         bullet.body.velocity.y -= 1200;
       }
