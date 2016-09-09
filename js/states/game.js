@@ -46,15 +46,17 @@ BasicGame.Game.prototype = {
 
         player = new Player(this.game);
         enemies = new Enemy(this.game);
+        gameCollider = new GameCollision(this.game);
         player.create();
         enemies.create();
 
-        console.log(player);
-        console.log(enemies);
+        console.log(player.weapon);
+        console.log(enemies.minions);
     },
 
     update: function () {
       player.update();
+      gameCollider.weaponEnemies(player.weapon, enemies.minions);
 
       //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },
