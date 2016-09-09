@@ -36,22 +36,22 @@ Player.prototype = {
     backFace.alpha = 0;
     //this.gridBackground.anchor.set(0.5,0.5);
 
-    bullets001 = this.game.add.group();
-    bullets002 = this.game.add.group();
-    bullets003 = this.game.add.group();
-    bullets004 = this.game.add.group();
-    bullets005 = this.game.add.group();
-    bullets006 = this.game.add.group();
-    bullets = [bullets001, bullets002, bullets003, bullets004, bullets005, bullets006];
+    this.bullets001 = this.game.add.group();
+    this.bullets002 = this.game.add.group();
+    this.bullets003 = this.game.add.group();
+    this.bullets004 = this.game.add.group();
+    this.bullets005 = this.game.add.group();
+    this.bullets006 = this.game.add.group();
+    this.bullets = [this.bullets001, this.bullets002, this.bullets003, this.bullets004, this.bullets005, this.bullets006];
 
-    for (i = 0; i < bullets.length; i++) {
-      bullets[i].enableBody = true;
-      bullets[i].physicsBodyType = Phaser.Physics.ARCADE;
-      bullets[i].createMultiple(50, 'bullet'+(i+1));
-      bullets[i].callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', this.resetBullet, this);
-      bullets[i].setAll('checkWorldBounds', true);
-      bullets[i].setAll('anchor.x', 0.5);
-      bullets[i].setAll('anchor.y', 1);
+    for (i = 0; i < this.bullets.length; i++) {
+      this.bullets[i].enableBody = true;
+      this.bullets[i].physicsBodyType = Phaser.Physics.ARCADE;
+      this.bullets[i].createMultiple(50, 'bullet'+(i+1));
+      this.bullets[i].callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', this.resetBullet, this);
+      this.bullets[i].setAll('checkWorldBounds', true);
+      this.bullets[i].setAll('anchor.x', 0.5);
+      this.bullets[i].setAll('anchor.y', 1);
     }
 
 
@@ -212,8 +212,8 @@ Player.prototype = {
 
   fire: function () {
     if (this.canFire(this.bulletType)) {
-      bullet = bullets[this.bulletType-1].getFirstExists(false);
-      console.log(bullet);
+      bullet = this.bullets[this.bulletType-1].getFirstExists(false);
+      console.log(this.bullet);
       if (bullet) {
         bullet.reset(tri.x, tri.y-32);
         bullet.body.velocity.y -= 1200;

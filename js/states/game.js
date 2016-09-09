@@ -48,10 +48,15 @@ BasicGame.Game.prototype = {
         enemies = new Enemy(this.game);
         player.create();
         enemies.create();
+
+        console.log(player);
+        console.log(enemies);
     },
 
     update: function () {
       player.update();
+
+      //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },
 
     render: function () {
