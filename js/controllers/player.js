@@ -121,7 +121,7 @@ Player.prototype = {
       this.tri.body.velocity.y = this.tri.body.velocity.y-(this.tri.body.velocity.y/10);
     }
 
-    if (this.game.spaceKey.isDown && this.tri.alive) {
+    if (this.game.spaceKey.isDown && this.tri.alive && this.game.spaceKey.downDuration(200)) {
       this.fire();
     }
 

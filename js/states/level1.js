@@ -45,11 +45,11 @@ BasicGame.Level1.prototype = {
         this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
 
         player = new Player(this.game);
-        enemies = new Enemy(this.game);
+        enemies = new Enemy(this.game, player );
         gameCollider = new GameCollision(this.game);
         player.create();
         enemies.create();
-        console.log(this.game);
+        console.log(enemies);
     },
 
     update: function () {
@@ -57,6 +57,7 @@ BasicGame.Level1.prototype = {
       enemies.update();
       gameCollider.weaponEnemies(player.weapon, enemies);
       gameCollider.playerEnemies(player, enemies);
+      gameCollider.playerEnemyBullets(player, enemies);
 
       //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },

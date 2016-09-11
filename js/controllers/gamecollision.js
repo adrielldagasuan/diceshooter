@@ -29,7 +29,7 @@ GameCollision.prototype = {
 
       playerEnemyHandler = function (enemy) {
         player.takeDamage(200);
-        player.disableMovement(); 
+        player.disableMovement();
       }
 
       for (var i = 0; i < minions.length; i++) {
@@ -37,5 +37,17 @@ GameCollision.prototype = {
             this.game.physics.arcade.collide(tri, minions[j], playerEnemyHandler, null,this);
         }
       }
+    },
+
+    playerEnemyBullets: function(player, enemies) {
+      tri = player.tri;
+      enemyBullets = enemies.enemyBullets;
+      playerEnemyHandler = function (enemy) {
+        player.takeDamage(200);
+
+      }
+
+      this.game.physics.arcade.collide(tri, enemyBullets, playerEnemyHandler, null,this);
+
     }
 }

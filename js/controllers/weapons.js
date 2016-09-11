@@ -24,7 +24,7 @@ Weapons.prototype = {
     }
 
     // configure bullets
-    fireTimer = 50;
+    fireTimer = 20;
     lastFire = [];
     for (i = 0; i < 6; i++){
         lastFire[i] = this.game.time.now;
@@ -37,6 +37,7 @@ Weapons.prototype = {
   },
 
   fireWeapon: function (player, bulletType) {
+
     if (this.canFire(bulletType)) {
       bullet = this.bullets[bulletType-1].getFirstExists(false);
       if (bullet) {
