@@ -16,7 +16,7 @@ Weapons.prototype = {
     for (i = 0; i < this.bullets.length; i++) {
       this.bullets[i].enableBody = true;
       this.bullets[i].physicsBodyType = Phaser.Physics.ARCADE;
-      this.bullets[i].createMultiple(50, 'bullet'+(i+1));
+      this.bullets[i].createMultiple(10, 'bullet'+(i+1));
       this.bullets[i].callAll('events.onOutOfBounds.add', 'events.onOutOfBounds', this.resetBullet, this);
       this.bullets[i].setAll('checkWorldBounds', true);
       this.bullets[i].setAll('anchor.x', 0.5);
@@ -24,7 +24,7 @@ Weapons.prototype = {
     }
 
     // configure bullets
-    fireTimer = 100;
+    fireTimer = 50;
     lastFire = [];
     for (i = 0; i < 6; i++){
         lastFire[i] = this.game.time.now;
@@ -64,7 +64,7 @@ Weapons.prototype = {
   hit: function (bullet) {
     bulletSparks.x = bullet.x;
     bulletSparks.y = bullet.y - bullet.height;
-    bulletSparks.start(true, 100, null, 10);
+    bulletSparks.start(true, 70, null, 10);
     bullet.kill();
   }
 

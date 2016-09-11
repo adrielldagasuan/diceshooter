@@ -1,5 +1,5 @@
 
-BasicGame.Game = function (game) {
+BasicGame.Level1 = function (game) {
 
     //  When a State is added to Phaser it automatically has the following properties set on it, even if they already exist:
 
@@ -25,31 +25,49 @@ BasicGame.Game = function (game) {
 
 };
 
-BasicGame.Game.prototype = {
+BasicGame.Level1.prototype = {
 
     create: function () {
-      this.game.playerScore = 0;
-      this.game.addScore = function (game, points) {
-        console.log('AddScore');
-        game.playerScore += points;
-      }
 
-      this.game.state.add('Level1', BasicGame.Level1);
-      this.game.state.start('Level1');
+        this.stageBackground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'tile');
+        this.stageBackground.autoScroll(0,40);
+
+        this.game.wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
+        this.game.aKey = this.input.keyboard.addKey(Phaser.Keyboard.A);
+        this.game.sKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
+        this.game.dKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
+        this.game.eKey = this.input.keyboard.addKey(Phaser.Keyboard.E);
+        this.game.qKey = this.input.keyboard.addKey(Phaser.Keyboard.Q);
+        this.game.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.game.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+        this.game.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+        this.game.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+        this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+
+        player = new Player(this.game);
+        enemies = new Enemy(this.game);
+        gameCollider = new GameCollision(this.game);
+        player.create();
+        enemies.create();
+        console.log(this.game);
     },
 
     update: function () {
+      player.update();
+      enemies.update();
+      gameCollider.weaponEnemies(player.weapon, enemies);
+      gameCollider.playerEnemies(player, enemies);
 
+      //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },
 
     render: function () {
-
+      this.game.debug.text(this.game.playerScore, 10, 30);
     },
 
     quitGame: function (pointer) {
 
-    },
-
+    }
 
 
 };

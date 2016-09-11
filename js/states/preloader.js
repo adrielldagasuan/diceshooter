@@ -24,10 +24,11 @@ BasicGame.Preloader.prototype = {
 			for (i = 1; i < 7; i++){
 					this.load.image('bullet'+i,'assets/bullets/bullet_00'+i+'.png');
 			}
+
 	},
 
 	create: function () {
-
+			
 	},
 
 	update: function () {

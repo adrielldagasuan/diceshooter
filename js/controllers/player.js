@@ -5,23 +5,25 @@ Player = function (game) {
 Player.prototype = {
   create: function (){
 
-    this.upPoint = {x: 0+64, y: this.game.height - 64-32};
-    this.frontPoint = {x: 0+64, y: this.game.height - 64};
-    this.downPoint = {x: 0+64, y: this.game.height - 64+32};
-    this.rightPoint = {x: 0+64+32, y: this.game.height - 64};
-    this.leftPoint = {x: 0+64-32, y: this.game.height - 64};
-    this.backPoint = {x: 10, y: 10};
+    upPoint = {x: 0+64, y: this.game.height - 64-32};
+    frontPoint = {x: 0+64, y: this.game.height - 64};
+    downPoint = {x: 0+64, y: this.game.height - 64+32};
+    rightPoint = {x: 0+64+32, y: this.game.height - 64};
+    leftPoint = {x: 0+64-32, y: this.game.height - 64};
+    backPoint = {x: 10, y: 10};
 
     this.tri = this.game.add.sprite(this.game.width/2,this.game.height - 96,'tri');
     this.game.physics.enable(this.tri,Phaser.Physics.ARCADE);
+    this.tri.body.collideWorldBounds = true;
     this.tri.anchor.set(0.5,0.5);
+    this.tri.hp = 3000;
 
-    upFace = this.game.add.sprite(this.upPoint.x, this.upPoint.y, 'face1');
-    frontFace = this.game.add.sprite(this.frontPoint.x, this.frontPoint.y, 'face5');
-    downFace = this.game.add.sprite(this.downPoint.x, this.downPoint.y, 'face6');
-    rightFace = this.game.add.sprite(this.rightPoint.x, this.rightPoint.y, 'face4');
-    leftFace = this.game.add.sprite(this.leftPoint.x, this.leftPoint.y, 'face3');
-    backFace = this.game.add.sprite(this.frontPoint.x, this.frontPoint.y, 'face2');
+    upFace = this.game.add.sprite(upPoint.x, upPoint.y, 'face1');
+    frontFace = this.game.add.sprite(frontPoint.x, frontPoint.y, 'face5');
+    downFace = this.game.add.sprite(downPoint.x, downPoint.y, 'face6');
+    rightFace = this.game.add.sprite(rightPoint.x, rightPoint.y, 'face4');
+    leftFace = this.game.add.sprite(leftPoint.x, leftPoint.y, 'face3');
+    backFace = this.game.add.sprite(frontPoint.x, frontPoint.y, 'face2');
     this.game.physics.enable(upFace,Phaser.Physics.ARCADE);
     this.game.physics.enable(frontFace,Phaser.Physics.ARCADE);
     this.game.physics.enable(rightFace,Phaser.Physics.ARCADE);
@@ -39,6 +41,7 @@ Player.prototype = {
     tempPos = ''; // set placeholder used in texture swapping
     posX = this.game.width/2;
     posY = this.game.height - 64;
+    lastTimeDisabled = this.game.time.now;
 
     // configure timers
     rollTimer = 180; // set rate of dice roll
@@ -53,7 +56,9 @@ Player.prototype = {
   },
 
   update: function () {
-    this.diceController();
+    if (!this.checkIfDisabled()){
+      this.diceController();
+    }
     this.bulletType = upFace.texture.baseTexture.source.name.substring(4);
   },
 
@@ -89,14 +94,34 @@ Player.prototype = {
     }
 
     if (this.game.leftKey.isDown) {
-      this.tri.body.velocity.x -= 20;
+      this.tri.body.velocity.x = -500;
+      if (this.game.leftKey.downDuration(100)){
+        this.tri.body.velocity.x = -200;
+      }
     } else if (this.game.rightKey.isDown) {
-      this.tri.body.velocity.x += 20;
+      this.tri.body.velocity.x = 500;
+      if (this.game.rightKey.downDuration(100)){
+        this.tri.body.velocity.x = 200;
+      }
     } else {
-      this.tri.body.velocity.x = this.tri.body.velocity.x-(this.tri.body.velocity.x/20);
+      this.tri.body.velocity.x = this.tri.body.velocity.x-(this.tri.body.velocity.x/10);
     }
 
-    if (this.game.spaceKey.isDown) {
+    if (this.game.upKey.isDown) {
+      this.tri.body.velocity.y = -500;
+      if (this.game.upKey.downDuration(100)){
+          this.tri.body.velocity.y = -200;
+      }
+    } else if (this.game.downKey.isDown) {
+      this.tri.body.velocity.y = 500;
+      if (this.game.downKey.downDuration(200)){
+          this.tri.body.velocity.y = 200;
+      }
+    } else {
+      this.tri.body.velocity.y = this.tri.body.velocity.y-(this.tri.body.velocity.y/10);
+    }
+
+    if (this.game.spaceKey.isDown && this.tri.alive) {
       this.fire();
     }
 
@@ -190,5 +215,30 @@ Player.prototype = {
 
   fire: function () {
     this.weapon.fireWeapon(this.tri, this.bulletType);
+  },
+
+  takeDamage: function (damage) {
+    this.tri.hp = tri.hp - 1000;
+    if (this.tri.hp <= 0) {
+      //game over screen
+      console.log('YOU ARE DEAD');
+      this.tri.kill();
+    }
+  },
+
+  disableMovement: function () {
+    this.tri.body.velocity.x = -(this.tri.body.velocity.x/10);
+    this.tri.body.velocity.y = -(this.tri.body.velocity.y/10);
+    if (!this.checkIfDisabled()){
+      lastTimeDisabled = this.game.time.now + 1000;
+    }
+  },
+
+  checkIfDisabled: function () {
+    if (this.game.time.now > lastTimeDisabled) {
+      return false;
+    } else {
+      return true;
+    }
   }
 }

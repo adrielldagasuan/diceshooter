@@ -8,7 +8,8 @@ GameCollision.prototype = {
       bullets = weapon.bullets;
       minions = enemies.minions;
 
-      hitEnemyHandler = function (bullet, enemy) {
+      weaponEnemyHandler = function (bullet, enemy) {
+
         weapon.hit(bullet);
         enemies.takeDamage(enemy, bullet.damage);
       }
@@ -16,10 +17,25 @@ GameCollision.prototype = {
       for (var i = 0; i < minions.length; i++) {
         for(var j = 0; j < bullets.length; j++){
           for (var k = 0; k < minions[i].countLiving(); k++) {
-              this.game.physics.arcade.overlap(bullets[j], minions[i], hitEnemyHandler, null,this);
-            //console.log(this.game.physics.arcade);
+              this.game.physics.arcade.overlap(bullets[j], minions[k], weaponEnemyHandler, null,this);
           }
         }
       }
     },
+
+    playerEnemies: function(player, enemies) {
+      tri = player.tri;
+      minions = enemies.minions;
+
+      playerEnemyHandler = function (enemy) {
+        player.takeDamage(200);
+        player.disableMovement(); 
+      }
+
+      for (var i = 0; i < minions.length; i++) {
+        for (var j = 0; j < minions[i].countLiving(); j++) {
+            this.game.physics.arcade.collide(tri, minions[j], playerEnemyHandler, null,this);
+        }
+      }
+    }
 }
