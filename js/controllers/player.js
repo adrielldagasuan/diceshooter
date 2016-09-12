@@ -218,7 +218,7 @@ Player.prototype = {
   },
 
   takeDamage: function (damage) {
-    this.tri.hp = tri.hp - 1000;
+    //this.tri.hp = tri.hp - 1000;
     if (this.tri.hp <= 0) {
       //game over screen
       console.log('YOU ARE DEAD');

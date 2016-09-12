@@ -42,9 +42,9 @@ GameCollision.prototype = {
     playerEnemyBullets: function(player, enemies) {
       tri = player.tri;
       enemyBullets = enemies.enemyBullets;
-      playerEnemyHandler = function (enemy) {
+      playerEnemyHandler = function (tri, enemy) {
         player.takeDamage(200);
-
+        enemies.resetEnemyBullet(enemy);
       }
 
       this.game.physics.arcade.collide(tri, enemyBullets, playerEnemyHandler, null,this);

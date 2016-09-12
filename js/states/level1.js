@@ -49,7 +49,6 @@ BasicGame.Level1.prototype = {
         gameCollider = new GameCollision(this.game);
         player.create();
         enemies.create();
-        console.log(enemies);
     },
 
     update: function () {
@@ -58,12 +57,11 @@ BasicGame.Level1.prototype = {
       gameCollider.weaponEnemies(player.weapon, enemies);
       gameCollider.playerEnemies(player, enemies);
       gameCollider.playerEnemyBullets(player, enemies);
-
-      //this.game.physics.arcade.overlap(player.bullets,enemies.minions001);
     },
 
     render: function () {
       this.game.debug.text(this.game.playerScore, 10, 30);
+      this.game.debug.text(player.tri.hp, 10, 50);
     },
 
     quitGame: function (pointer) {

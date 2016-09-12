@@ -73,7 +73,9 @@ Enemy.prototype = {
   spawnEnemies: function (){
 
     this.spawnEnemy1();
-    this.spawnEnemy2();
+    if (this.minions[1].countLiving() < this.minions[0].countLiving()){
+        this.spawnEnemy2();
+    }
 
     function moveMinions(minion){
       minion.body.velocity.y = 100;
