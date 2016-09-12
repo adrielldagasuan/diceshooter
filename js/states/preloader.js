@@ -7,7 +7,7 @@ BasicGame.Preloader.prototype = {
 
 	preload: function () {
 			this.load.image('tile','assets/tiles/tile_01.png');
-			this.load.image('tri','assets/player/tri.png');
+			this.load.image('tri','assets/player/ship.png'); //this is the player sprite
 			this.load.image('particle', 'assets/bullets/particle.png');
 
 			// preload faces
@@ -22,13 +22,14 @@ BasicGame.Preloader.prototype = {
 
 			// preload bullets
 			for (i = 1; i < 7; i++){
-					this.load.image('bullet'+i,'assets/bullets/bullet_00'+i+'.png');
+					//this.load.image('bullet'+i,'assets/bullets/bullet_00'+i+'.png');
+					this.load.image('bullet'+i,'assets/bullets/bullet.png');
 			}
 
 	},
 
 	create: function () {
-			
+
 	},
 
 	update: function () {

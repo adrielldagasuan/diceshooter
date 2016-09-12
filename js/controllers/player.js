@@ -95,15 +95,18 @@ Player.prototype = {
 
     if (this.game.leftKey.isDown) {
       this.tri.body.velocity.x = -500;
+      this.tri.scale.x = 0.8;
       if (this.game.leftKey.downDuration(100)){
         this.tri.body.velocity.x = -200;
       }
     } else if (this.game.rightKey.isDown) {
       this.tri.body.velocity.x = 500;
+      this.tri.scale.x = 0.8;
       if (this.game.rightKey.downDuration(100)){
         this.tri.body.velocity.x = 200;
       }
     } else {
+      this.tri.scale.x = 1;
       this.tri.body.velocity.x = this.tri.body.velocity.x-(this.tri.body.velocity.x/10);
     }
 
