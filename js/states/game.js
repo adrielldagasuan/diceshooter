@@ -37,15 +37,15 @@ BasicGame.Game.prototype = {
         game.playerScore += points;
       }
 
-      startText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 50, "Start Game", { font: "50px Arial", fill: "#ff0044", align: "center" });
-      optionsText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Options", { font: "50px Arial", fill: "#ff0044", align: "center" });
-      hiScoreText = this.game.add.text(this.game.world.centerX, this.game.world.centerY + 50, "High Score", { font: "50px Arial", fill: "#ff0044", align: "center" });
+      startText = this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY - 50, 'gameFont', 'Start Game', 20);
+      optionsText = this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY, 'gameFont', 'Options', 20);
+      hiScoreText = this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY + 50, 'gameFont', 'High Score', 20);
 
       startText.anchor.set(0.5);
       optionsText.anchor.set(0.5);
       hiScoreText.anchor.set(0.5);
 
-      dotSelect = this.game.add.sprite(startText.x - (startText.width/2) - 10, startText.y, 'particle');
+      dotSelect = this.game.add.sprite(startText.x - (startText.width/2) - 20, startText.y, 'particle');
       dotSelect.anchor.set(0.5);
       dotSelect.scale.x = 2;
       dotSelect.scale.y = 2;
@@ -90,7 +90,6 @@ BasicGame.Game.prototype = {
       }
 
       if (this.game.enterKey.isDown && this.game.time.now > lastPress) {
-        //console.log(options[ctr]);
         lastPress = this.game.time.now + pressRate;
 
         if (options[ctr] == 'start') {

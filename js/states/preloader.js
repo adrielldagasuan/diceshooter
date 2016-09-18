@@ -9,6 +9,7 @@ BasicGame.Preloader.prototype = {
 			this.load.image('tile','assets/tiles/tile_01.png');
 			this.load.image('tri','assets/player/ship.png'); //this is the player sprite
 			this.load.image('particle', 'assets/bullets/particle.png');
+			this.game.load.bitmapFont('gameFont', 'assets/bitmapfonts/font.png', 'assets/bitmapfonts/font.fnt');
 
 			// preload faces
 			for (i = 1; i < 7; i++) {

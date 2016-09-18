@@ -30,6 +30,7 @@ Player.prototype = {
     this.game.physics.enable(leftFace,Phaser.Physics.ARCADE);
     this.game.physics.enable(downFace,Phaser.Physics.ARCADE);
 
+
     upFace.anchor.set(0.5,0.5);
     frontFace.anchor.set(0.5,0.5);
     downFace.anchor.set(0.5,0.5);
@@ -128,6 +129,15 @@ Player.prototype = {
     if (this.game.spaceKey.isDown && this.tri.alive && this.game.spaceKey.downDuration(200)) {
       this.fire();
     }
+
+    this.checkCollision(this.tri, upFace);
+    this.checkCollision(this.tri, downFace);
+    this.checkCollision(this.tri, rightFace);
+    this.checkCollision(this.tri, leftFace);
+    this.checkCollision(this.tri, frontFace);
+
+
+
 
   },
   moveUp: function () {
@@ -244,5 +254,21 @@ Player.prototype = {
     } else {
       return true;
     }
+  },
+
+  checkCollision: function (tri, face) {
+    if (this.checkOverlap(tri, face)){
+      face.alpha = 0.1;
+    } else {
+      face.alpha = 1;
+    }
+  },
+
+  checkOverlap: function (spriteA, spriteB) {
+
+    var boundsA = spriteA.getBounds();
+    var boundsB = spriteB.getBounds();
+
+    return Phaser.Rectangle.intersects(boundsA, boundsB);
   }
 }

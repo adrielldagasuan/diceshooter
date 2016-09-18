@@ -68,5 +68,4 @@ BasicGame.Level1.prototype = {
 
     }
 
-
 };
