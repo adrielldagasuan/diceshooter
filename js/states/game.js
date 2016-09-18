@@ -28,18 +28,76 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
 
     create: function () {
+
+      this.game.state.add('Level1', BasicGame.Level1);
+
       this.game.playerScore = 0;
       this.game.addScore = function (game, points) {
         console.log('AddScore');
         game.playerScore += points;
       }
 
+      startText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 50, "Start Game", { font: "50px Arial", fill: "#ff0044", align: "center" });
+      optionsText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, "Options", { font: "50px Arial", fill: "#ff0044", align: "center" });
+      hiScoreText = this.game.add.text(this.game.world.centerX, this.game.world.centerY + 50, "High Score", { font: "50px Arial", fill: "#ff0044", align: "center" });
+
+      startText.anchor.set(0.5);
+      optionsText.anchor.set(0.5);
+      hiScoreText.anchor.set(0.5);
+
+      dotSelect = this.game.add.sprite(startText.x - (startText.width/2) - 10, startText.y, 'particle');
+      dotSelect.anchor.set(0.5);
+      dotSelect.scale.x = 2;
+      dotSelect.scale.y = 2;
+
+      options = ['start', 'options', 'hiscore'];
+
+      // set keyboard controls
+
+      this.game.wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
+      this.game.aKey = this.input.keyboard.addKey(Phaser.Keyboard.A);
+      this.game.sKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
+      this.game.dKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
+      this.game.eKey = this.input.keyboard.addKey(Phaser.Keyboard.E);
+      this.game.qKey = this.input.keyboard.addKey(Phaser.Keyboard.Q);
+      this.game.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+      this.game.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+      this.game.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+      this.game.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+      this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+      this.game.enterKey = this.input.keyboard.addKey(Phaser.Keyboard.ENTER);
+
+      lastPress = this.game.time.now;
+      pressRate = 200;
+
+      ctr = 0;
+
+      /*
       this.game.state.add('Level1', BasicGame.Level1);
       this.game.state.start('Level1');
+      */
     },
 
     update: function () {
+      if (this.game.downKey.isDown && this.game.time.now > lastPress && dotSelect.y <= hiScoreText.y-1) {
+        dotSelect.y += 50;
+        ctr++;
+        lastPress = this.game.time.now + pressRate;
+      } else if (this.game.upKey.isDown && this.game.time.now > lastPress && dotSelect.y >= startText.y+1) {
+        dotSelect.y -= 50;
+        lastPress = this.game.time.now + pressRate;
+        ctr--;
+      }
 
+      if (this.game.enterKey.isDown && this.game.time.now > lastPress) {
+        //console.log(options[ctr]);
+        lastPress = this.game.time.now + pressRate;
+
+        if (options[ctr] == 'start') {
+          console.log(options[ctr]);
+          this.state.start('Level1');
+        }
+      }
     },
 
     render: function () {

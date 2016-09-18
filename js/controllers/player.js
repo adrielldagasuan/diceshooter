@@ -93,6 +93,7 @@ Player.prototype = {
       this.spinLeft();
     }
 
+
     if (this.game.leftKey.isDown) {
       this.tri.body.velocity.x = -500;
       this.tri.scale.x = 0.8;
