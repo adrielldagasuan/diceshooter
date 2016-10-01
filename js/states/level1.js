@@ -40,7 +40,7 @@ BasicGame.Level1.prototype = {
         enemies.create();
         this.soundtrack = this.game.add.audio('level1music');
         this.soundtrack.play('', 0, 1, true);
-        this.game.distance = 0;
+        
 
 
 	this.points = this.game.add.bitmapText(10, 30, 'gameFont', this.game.playerScore, 12);
@@ -49,7 +49,7 @@ BasicGame.Level1.prototype = {
     },
 
     update: function () {
-      this.game.distance++;
+
       this.setControls();
       this.points.setText(this.game.playerScore);
 
