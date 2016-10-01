@@ -4,7 +4,7 @@ Player = function(game) {
 
 Player.prototype = {
     create: function() {
-        damaged = false;
+        this.damaged = false;
         upPoint = {
             x: 0 + 64,
             y: this.game.height - 64 - 32
@@ -374,8 +374,10 @@ Player.prototype = {
     checkInvinsibility: function() {
 
       if (lastHit > this.game.time.now) {
+          this.damaged = true;
           this.tri.alpha = 0.3;
       } else {
+          this.damaged = false;
           this.tri.alpha = 1;
       }
     }

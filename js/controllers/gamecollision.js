@@ -35,7 +35,7 @@ GameCollision.prototype = {
       }
 
       for (var i = 0; i < minions.length; i++) {
-        for (var j = 0; j < minions[i].countLiving(); j++) {
+        for (var j  = 0; j < minions[i].countLiving(); j++) {
             this.game.physics.arcade.collide(tri, minions[j], playerEnemyHandler, null,this);
         }
       }
