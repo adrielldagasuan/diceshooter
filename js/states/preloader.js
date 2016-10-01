@@ -26,6 +26,12 @@ BasicGame.Preloader.prototype = {
 					//this.load.image('bullet'+i,'assets/bullets/bullet_00'+i+'.png');
 					this.load.image('bullet'+i,'assets/bullets/bullet.png');
 			}
+                        // sound effects
+                        this.game.load.audio('laserSound','assets/audio/weapon/laser4.wav');
+                        this.game.load.audio('enemyExplode','assets/audio/enemies/explode.ogg');
+                        this.game.load.audio('enemyHit','assets/audio/enemies/hit.wav');
+                        this.game.load.audio('playerHit','assets/audio/player/hit.wav');
+                        this.game.load.audio('level1music','assets/audio/music/level1/soundtrack.mp3');
 
 	},
 

@@ -33,7 +33,6 @@ BasicGame.Game.prototype = {
 
       this.game.playerScore = 0;
       this.game.addScore = function (game, points) {
-        console.log('AddScore');
         game.playerScore += points;
       }
 
@@ -49,6 +48,8 @@ BasicGame.Game.prototype = {
       dotSelect.anchor.set(0.5);
       dotSelect.scale.x = 2;
       dotSelect.scale.y = 2;
+
+      this.game.input.gamepad.start();
 
       options = ['start', 'options', 'hiscore'];
 
@@ -79,17 +80,18 @@ BasicGame.Game.prototype = {
     },
 
     update: function () {
-      if (this.game.downKey.isDown && this.game.time.now > lastPress && dotSelect.y <= hiScoreText.y-1) {
+      this.setControls();
+      if ((this.game.downKey.isDown || (this.game.gamepad && this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN))) && this.game.time.now > lastPress && dotSelect.y <= hiScoreText.y-1) {
         dotSelect.y += 50;
         ctr++;
         lastPress = this.game.time.now + pressRate;
-      } else if (this.game.upKey.isDown && this.game.time.now > lastPress && dotSelect.y >= startText.y+1) {
+      } else if ((this.game.upKey.isDown && this.game.time.now || (this.game.gamepad && this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP))) && this.game.time.now > lastPress && dotSelect.y >= startText.y+1) {
         dotSelect.y -= 50;
         lastPress = this.game.time.now + pressRate;
         ctr--;
       }
 
-      if (this.game.enterKey.isDown && this.game.time.now > lastPress) {
+      if ((this.game.enterKey.isDown || (this.game.gamepad && this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_A))) && this.game.time.now > lastPress) {
         lastPress = this.game.time.now + pressRate;
 
         if (options[ctr] == 'start') {
@@ -101,6 +103,24 @@ BasicGame.Game.prototype = {
 
     render: function () {
 
+    },
+
+    setControls : function() {
+      if (this.game.input.gamepad._rawPads.length > 0){
+	  this.game.gamepad = this.game.input.gamepad.pad1;
+	} else {
+	  this.game.wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
+          this.game.aKey = this.input.keyboard.addKey(Phaser.Keyboard.A);
+          this.game.sKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
+          this.game.dKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
+          this.game.eKey = this.input.keyboard.addKey(Phaser.Keyboard.E);
+          this.game.qKey = this.input.keyboard.addKey(Phaser.Keyboard.Q);
+          this.game.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+          this.game.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+          this.game.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+          this.game.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+          this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        }
     },
 
     quitGame: function (pointer) {

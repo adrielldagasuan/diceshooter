@@ -31,36 +31,52 @@ BasicGame.Level1.prototype = {
 
         this.stageBackground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'tile');
         this.stageBackground.autoScroll(0,40);
-
-        this.game.wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
-        this.game.aKey = this.input.keyboard.addKey(Phaser.Keyboard.A);
-        this.game.sKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
-        this.game.dKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
-        this.game.eKey = this.input.keyboard.addKey(Phaser.Keyboard.E);
-        this.game.qKey = this.input.keyboard.addKey(Phaser.Keyboard.Q);
-        this.game.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-        this.game.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
-        this.game.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
-        this.game.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-        this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+	this.game.input.gamepad.start();
 
         player = new Player(this.game);
         enemies = new Enemy(this.game, player );
         gameCollider = new GameCollision(this.game);
         player.create();
         enemies.create();
+        this.soundtrack = this.game.add.audio('level1music');
+        this.soundtrack.play('', 0, 1, true);
+	
+
+	this.points = this.game.add.bitmapText(10, 30, 'gameFont', 'Hello  222 World', 20);
+        
     },
 
     update: function () {
+      console.log(this.game.playerScore);
+      this.setControls();
+      //this.points.setText(this.game.playerScore);
       player.update();
       enemies.update();
       gameCollider.weaponEnemies(player.weapon, enemies);
       gameCollider.playerEnemies(player, enemies);
       gameCollider.playerEnemyBullets(player, enemies);
     },
+    
+    setControls : function() {
+      if (this.game.input.gamepad._rawPads.length > 0){
+	  this.game.gamepad = this.game.input.gamepad.pad1;
+	} else {
+	  this.game.wKey = this.input.keyboard.addKey(Phaser.Keyboard.W);
+          this.game.aKey = this.input.keyboard.addKey(Phaser.Keyboard.A);
+          this.game.sKey = this.input.keyboard.addKey(Phaser.Keyboard.S);
+          this.game.dKey = this.input.keyboard.addKey(Phaser.Keyboard.D);
+          this.game.eKey = this.input.keyboard.addKey(Phaser.Keyboard.E);
+          this.game.qKey = this.input.keyboard.addKey(Phaser.Keyboard.Q);
+          this.game.spaceKey = this.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+          this.game.upKey = this.input.keyboard.addKey(Phaser.Keyboard.UP);
+          this.game.downKey = this.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+          this.game.leftKey = this.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+          this.game.rightKey = this.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+        }
+    },
 
     render: function () {
-      this.game.debug.text(this.game.playerScore, 10, 30);
+      //this.game.debug.text(this.game.playerScore, 10, 30);
       this.game.debug.text(player.tri.hp, 10, 50);
     },
 

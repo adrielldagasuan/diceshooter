@@ -34,6 +34,9 @@ Weapons.prototype = {
     bulletSparks.makeParticles('particle');
     bulletSparks.maxParticleScale = 0.1;
 
+    this.laserSound = this.game.add.audio('laserSound');
+    this.laserSound.volume = 0.5;
+
   },
 
   fireWeapon: function (player, bulletType) {
@@ -44,6 +47,7 @@ Weapons.prototype = {
         bullet.damage = bulletType;
         bullet.reset(player.x, player.y-32);
         bullet.body.velocity.y -= 1200;
+        this.laserSound.play();
       }
       lastFire[bulletType-1] = this.game.time.now + (fireTimer * bulletType * bulletType);
     }

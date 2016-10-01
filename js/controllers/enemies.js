@@ -52,6 +52,10 @@ Enemy.prototype = {
     gameDistance = 0;
     this.traveledDistance = 0;
     spawnIndex = 0;
+
+    this.explodeSound = this.game.add.audio('enemyExplode');
+    this.explodeSound.volume = 0.3;
+    this.hitSound = this.game.add.audio('enemyHit');
   },
 
   update: function () {
@@ -64,7 +68,9 @@ Enemy.prototype = {
 
   takeDamage: function(minion, dmg) {
     minion.hp = minion.hp-(dmg * 1000);
+    this.hitSound.play();
     if (minion.hp <= 0) {
+      this.explodeSound.play();
       minion.kill();
       this.game.addScore(this.game, 1);
     }

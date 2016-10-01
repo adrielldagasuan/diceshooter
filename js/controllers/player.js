@@ -54,16 +54,25 @@ Player.prototype = {
     this.weapon = new Weapons(this.game);
     this.weapon.create();
 
+    this.hitSound = this.game.add.audio('playerHit');
+
   },
 
   update: function () {
+    
     if (!this.checkIfDisabled()){
-      this.diceController();
+      if (this.game.gamepad){
+	this.gamepadController();
+      } else {
+	this.keyboardController();
+      }
     }
+
     this.bulletType = upFace.texture.baseTexture.source.name.substring(4);
+    this.checkPlayerCollision();
   },
 
-  diceController: function () {
+  keyboardController : function (){
 
     if (this.game.wKey.isDown) {
       this.moveUp();
@@ -129,17 +138,84 @@ Player.prototype = {
     if (this.game.spaceKey.isDown && this.tri.alive && this.game.spaceKey.downDuration(200)) {
       this.fire();
     }
+  },
 
+  gamepadController: function (){
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_UP)) {
+      this.moveUp();
+      this.updateSpeed(this.game.wKey);
+    }
+
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_RIGHT)) {
+      this.moveRight();
+      this.updateSpeed(this.game.dKey);
+    }
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_DOWN)) {
+      this.moveDown();
+      this.updateSpeed(this.game.sKey);
+    }
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_DPAD_LEFT)){
+      this.moveLeft();
+      this.updateSpeed(this.game.aKey);
+    }
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_LEFT_TRIGGER)) {
+      this.spinRight();
+    }
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_LEFT_BUMPER)) {
+      this.spinLeft();
+    }
+
+
+    if (this.game.gamepad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) < -0.1) {
+      this.tri.body.velocity.x = -500;
+      this.tri.scale.x = 0.8;
+      if (this.game.leftKey.downDuration(100)){
+        this.tri.body.velocity.x = -200;
+      }
+    } else if (this.game.gamepad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_X) > 0.1) {
+      this.tri.body.velocity.x = 500;
+      this.tri.scale.x = 0.8;
+      if (this.game.rightKey.downDuration(100)){
+        this.tri.body.velocity.x = 200;
+      }
+    } else {
+      this.tri.scale.x = 1;
+      this.tri.body.velocity.x = this.tri.body.velocity.x-(this.tri.body.velocity.x/10);
+    }
+
+    if (this.game.gamepad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) < -0.1) {
+      this.tri.body.velocity.y = -500;
+      if (this.game.upKey.downDuration(100)){
+          this.tri.body.velocity.y = -200;
+      }
+    } else if (this.game.gamepad.axis(Phaser.Gamepad.XBOX360_STICK_LEFT_Y) > 0.1) {
+      this.tri.body.velocity.y = 500;
+      if (this.game.downKey.downDuration(200)){
+          this.tri.body.velocity.y = 200;
+      }
+    } else {
+      this.tri.body.velocity.y = this.tri.body.velocity.y-(this.tri.body.velocity.y/10);
+    }
+
+    if (this.game.gamepad.isDown(Phaser.Gamepad.XBOX360_RIGHT_TRIGGER) && this.tri.alive) {
+      this.fire();
+    }
+  },
+
+  checkPlayerCollision : function() {
     this.checkCollision(this.tri, upFace);
     this.checkCollision(this.tri, downFace);
     this.checkCollision(this.tri, rightFace);
     this.checkCollision(this.tri, leftFace);
     this.checkCollision(this.tri, frontFace);
-
-
-
-
   },
+
   moveUp: function () {
 
     if (this.game.time.now > lastRoll) {
@@ -232,7 +308,8 @@ Player.prototype = {
   },
 
   takeDamage: function (damage) {
-    //this.tri.hp = tri.hp - 1000;
+    this.tri.hp = tri.hp - damage;
+    this.hitSound.play();
     if (this.tri.hp <= 0) {
       //game over screen
       console.log('YOU ARE DEAD');
