@@ -31,7 +31,7 @@ BasicGame.Level1.prototype = {
 
         this.stageBackground = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'tile');
         this.stageBackground.autoScroll(0,40);
-	this.game.input.gamepad.start();
+	      this.game.input.gamepad.start();
 
         player = new Player(this.game);
         enemies = new Enemy(this.game, player );
@@ -40,18 +40,19 @@ BasicGame.Level1.prototype = {
         enemies.create();
         this.soundtrack = this.game.add.audio('level1music');
         this.soundtrack.play('', 0, 1, true);
-	
+        this.game.distance = 0;
+
 
 	this.points = this.game.add.bitmapText(10, 30, 'gameFont', this.game.playerScore, 12);
 	this.health = this.game.add.bitmapText(10, 50, 'gameFont', this.game.playerScore, 12);
-        
+
     },
 
     update: function () {
-  
+      this.game.distance++;
       this.setControls();
       this.points.setText(this.game.playerScore);
-	
+
       player.update();
       enemies.update();
       gameCollider.weaponEnemies(player.weapon, enemies);
@@ -60,7 +61,7 @@ BasicGame.Level1.prototype = {
 
 	this.health.setText(player.tri.hp);
     },
-    
+
     setControls : function() {
       if (this.game.input.gamepad._rawPads.length > 0){
 	  this.game.gamepad = this.game.input.gamepad.pad1;

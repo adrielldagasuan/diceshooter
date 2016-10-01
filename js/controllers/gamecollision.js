@@ -27,9 +27,11 @@ GameCollision.prototype = {
       tri = player.tri;
       minions = enemies.minions;
 
-      playerEnemyHandler = function (enemy) {
+      playerEnemyHandler = function (tri, enemy) {
         player.takeDamage(200);
         player.disableMovement();
+        enemies.takeDamage(enemy, 1);
+
       }
 
       for (var i = 0; i < minions.length; i++) {
