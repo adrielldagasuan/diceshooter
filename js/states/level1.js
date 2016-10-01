@@ -42,19 +42,23 @@ BasicGame.Level1.prototype = {
         this.soundtrack.play('', 0, 1, true);
 	
 
-	this.points = this.game.add.bitmapText(10, 30, 'gameFont', 'Hello  222 World', 20);
+	this.points = this.game.add.bitmapText(10, 30, 'gameFont', this.game.playerScore, 12);
+	this.health = this.game.add.bitmapText(10, 50, 'gameFont', this.game.playerScore, 12);
         
     },
 
     update: function () {
-      console.log(this.game.playerScore);
+  
       this.setControls();
-      //this.points.setText(this.game.playerScore);
+      this.points.setText(this.game.playerScore);
+	
       player.update();
       enemies.update();
       gameCollider.weaponEnemies(player.weapon, enemies);
       gameCollider.playerEnemies(player, enemies);
       gameCollider.playerEnemyBullets(player, enemies);
+
+	this.health.setText(player.tri.hp);
     },
     
     setControls : function() {
@@ -77,7 +81,7 @@ BasicGame.Level1.prototype = {
 
     render: function () {
       //this.game.debug.text(this.game.playerScore, 10, 30);
-      this.game.debug.text(player.tri.hp, 10, 50);
+      //this.game.debug.text(player.tri.hp, 10, 50);
     },
 
     quitGame: function (pointer) {
